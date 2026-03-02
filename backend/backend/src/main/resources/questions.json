@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Add Two Numbers (Debugging)",
+    "description": "The following code is supposed to print the sum of two integers. But it contains a bug. Fix it so that it prints the correct output.",
+    "input": "2 3",
+    "expectedOutput": "5",
+    "languages": {
+      "python": "a, b = map(int, input().split())\n# BUG: This prints subtraction instead of addition\nprint(a - b)",
+      "java": "import java.util.*;\nclass Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        // BUG: Wrong operator used\n        System.out.println(a - b);\n    }\n}",
+      "c": "#include <stdio.h>\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    // BUG: Wrong operator used\n    printf(\"%d\", a - b);\n    return 0;\n}"
+    }
+  }
+]

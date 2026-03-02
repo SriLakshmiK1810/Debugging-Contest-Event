@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Arena</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Monaco Editor CDN -->
+    <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <h2>Questions</h2>
+        <ul id="questionList"></ul>
+    </div>
+
+    <div class="main">
+        <h2 id="questionTitle"></h2>
+        <p id="questionDescription"></p>
+
+        <select id="languageSelect">
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="c">C</option>
+        </select>
+
+        <div id="editor"></div>
+
+        <button onclick="runCode()">Run</button>
+
+        <div id="result"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
