@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import java.util.Collections;
 
 import org.springframework.web.client.RestTemplate;
 import com.debugarena.backend.model.Question;
@@ -30,64 +31,90 @@ public class QuestionController {
 
     @GetMapping("/questions")
     public List<Question> getQuestions() throws Exception {
+
         ObjectMapper mapper = new ObjectMapper();
         InputStream inputStream =
                 new ClassPathResource("questions.json").getInputStream();
 
-        return mapper.readValue(inputStream,
-                new com.fasterxml.jackson.core.type.TypeReference<List<Question>>() {});
+        List<Question> questions = mapper.readValue(
+                inputStream,
+                new com.fasterxml.jackson.core.type.TypeReference<List<Question>>() {}
+        );
+
+        // ✅ Shuffle questions randomly
+        Collections.shuffle(questions);
+
+        return questions;
     }
 
     @PostMapping("/submit")
-    public SubmissionResponse submitCode(@RequestBody SubmissionRequest request) throws Exception {
+    public SubmissionResponse submitCode(@RequestBody SubmissionRequest request) {
 
-        ClassPathResource resource = new ClassPathResource("questions.json");
-        ObjectMapper mapper = new ObjectMapper();
+        try {
+            // 🔹 Load questions.json
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream inputStream =
+                    new ClassPathResource("questions.json").getInputStream();
 
-        List<Map<String, Object>> questions =
-                mapper.readValue(resource.getInputStream(), List.class);
+            List<Question> questions = mapper.readValue(
+                    inputStream,
+                    new com.fasterxml.jackson.core.type.TypeReference<List<Question>>() {}
+            );
 
-        for (Map<String, Object> question : questions) {
+            // 🔹 Find correct question by ID
+            Question selectedQuestion = questions.stream()
+                    .filter(q -> q.getId() == request.getQuestionId())
+                    .findFirst()
+                    .orElse(null);
 
-            int id = (int) question.get("id");
+            if (selectedQuestion == null) {
+                return new SubmissionResponse("ERROR", "Question not found.");
+            }
 
-            if (id == request.getQuestionId()) {
+            String inputUsed = selectedQuestion.getInput();  // ✅ dynamic input
 
-                String expectedOutput = (String) question.get("expectedOutput");
-                String input = (String) question.get("input");
+            Map<String, Object> judgeRequest = new HashMap<>();
+            judgeRequest.put("source_code", request.getCode());
+            judgeRequest.put("language_id", request.getLanguageId());
+            judgeRequest.put("stdin", inputUsed);
 
-                Map<String, Object> judgeRequest = new HashMap<>();
-                judgeRequest.put("source_code", request.getCode());
-                judgeRequest.put("language_id", request.getLanguageId()); // ✅ ADD THIS
-                judgeRequest.put("stdin", input);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, Object>> entity =
+                    new HttpEntity<>(judgeRequest, headers);
 
-                HttpEntity<Map<String, Object>> entity =
-                        new HttpEntity<>(judgeRequest, headers);
+            ResponseEntity<Map> response =
+                    restTemplate.postForEntity(JUDGE0_URL, entity, Map.class);
 
-                ResponseEntity<Map> response =
-                        restTemplate.postForEntity(JUDGE0_URL, entity, Map.class);
+            if (response.getBody() != null) {
+                Map<String, Object> body = response.getBody();
+                Object stdout = body.get("stdout");
+                Object stderr = body.get("stderr");
+                Object compileOutput = body.get("compile_output");
 
-                String actualOutput = null;
-
-                if (response.getBody() != null) {
-                    actualOutput = (String) response.getBody().get("stdout");
+                if (stderr != null || compileOutput != null) {
+                    return new SubmissionResponse(
+                            "ERROR",
+                            "Input:\n" + inputUsed + "\n\nResult:\nError. Try again."
+                    );
                 }
 
-                if (actualOutput != null &&
-                        actualOutput.trim().equals(expectedOutput.trim())) {
-
-                    return new SubmissionResponse("Correct",
-                            "All test cases passed");
-                } else {
-                    return new SubmissionResponse("Wrong",
-                            "Output mismatch");
+                if (stdout != null) {
+                    String output = stdout.toString().trim();
+                    return new SubmissionResponse(
+                            "SUCCESS",
+                            "Input:\n" + inputUsed + "\n\nOutput:\n" + output
+                    );
                 }
             }
-        }
 
-        return new SubmissionResponse("Error", "Question not found");
-    }
-}
+            return new SubmissionResponse(
+                    "ERROR",
+                    "Input:\n" + inputUsed + "\n\nResult:\nError. Try again."
+            );
+
+        } catch (Exception e) {
+            return new SubmissionResponse("ERROR", "Server error.");
+        }
+    }}

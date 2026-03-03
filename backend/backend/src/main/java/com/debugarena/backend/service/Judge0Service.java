@@ -18,7 +18,7 @@ public class Judge0Service {
         this.restTemplate = restTemplate;
     }
 
-    public String runCode(String code, String language) {
+    public Map<String, String> runCode(String code, String language) {
 
         int languageId = switch (language.toLowerCase()) {
             case "python" -> 71;
@@ -42,20 +42,30 @@ public class Judge0Service {
         ResponseEntity<Map> response =
                 restTemplate.postForEntity(API_URL, request, Map.class);
 
+        Map<String, String> result = new java.util.HashMap<>();
+
         if (response.getBody() != null) {
 
             Map<String, Object> responseBody = response.getBody();
 
-            if (responseBody.get("stdout") != null)
-                return responseBody.get("stdout").toString();
+            // ✅ If program executed successfully
+            if (responseBody.get("stdout") != null) {
+                result.put("status", "SUCCESS");
+                result.put("message", responseBody.get("stdout").toString());
+                return result;
+            }
 
-            if (responseBody.get("stderr") != null)
-                return responseBody.get("stderr").toString();
+            // ❌ If any compilation or runtime error
+            if (responseBody.get("stderr") != null ||
+                    responseBody.get("compile_output") != null) {
 
-            if (responseBody.get("compile_output") != null)
-                return responseBody.get("compile_output").toString();
+                result.put("status", "ERROR");
+                result.put("message", "Error. Try again.");
+                return result;
+            }
         }
 
-        return "No output";
-    }
-}
+        result.put("status", "ERROR");
+        result.put("message", "Error. Try again.");
+        return result;
+    }}

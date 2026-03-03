@@ -9,10 +9,21 @@ require(['vs/editor/editor.main'], function () {
         value: '',
         language: 'python',
         theme: 'vs-dark'
+        
     });
-
-    loadQuestions();
+// ✅ Auto-save code
+editor.onDidChangeModelContent(() => {
+    localStorage.setItem("savedCode", editor.getValue());
 });
+
+// ✅ Restore saved code
+const saved = localStorage.getItem("savedCode");
+if (saved) {
+    editor.setValue(saved);
+}
+    loadQuestions();
+}
+);
 
 function loadQuestions() {
     fetch('http://localhost:8080/questions')
@@ -21,20 +32,33 @@ function loadQuestions() {
             questions = data;
             const list = document.getElementById('questionList');
 
-            data.forEach(q => {
-                const li = document.createElement('li');
-                li.textContent = q.title;
-                li.onclick = () => selectQuestion(q);
-                list.appendChild(li);
-            });
+            data.forEach((q, index) => {
+    const li = document.createElement('li');
+    li.textContent = "Relay-" + String(index + 1).padStart(2, '0');
+
+    li.onclick = () => selectQuestion(q, index, li);  // pass li also
+
+    list.appendChild(li);
+});
         });
 }
 
-function selectQuestion(q) {
+function selectQuestion(q, index, clickedElement) {
+
     selectedQuestion = q;
 
-    document.getElementById('questionTitle').innerText = q.title;
-    document.getElementById('questionDescription').innerText = q.description;
+    // ✅ Remove active from all relays
+    document.querySelectorAll("#questionList li")
+        .forEach(li => li.classList.remove("active"));
+
+    // ✅ Add active to clicked relay
+    clickedElement.classList.add("active");
+
+    document.getElementById('questionTitle').innerText =
+        "Relay-" + String(index + 1).padStart(2, '0');
+
+    document.getElementById('questionDescription').innerText =
+        q.description;
 
     const lang = document.getElementById('languageSelect').value;
 
@@ -100,3 +124,8 @@ function runCode() {
         console.error("Error:", error);
     });
 }
+// ✅ Warn before refresh (Ctrl+R / Reload / Close tab)
+window.addEventListener("beforeunload", function (e) {
+    e.preventDefault();
+    e.returnValue = "Are you sure you want to refresh? Your progress will be lost.";
+});
