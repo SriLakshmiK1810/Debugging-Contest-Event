@@ -73,6 +73,36 @@ html, body {
     text-align: center;
     display: flex;
 }
+
+/* Scrollbar for question list */
+#questionList{
+    max-height: 450px;   /* adjust based on your layout */
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Scrollbar width */
+#questionList::-webkit-scrollbar{
+    width:8px;
+}
+
+/* Scrollbar track */
+#questionList::-webkit-scrollbar-track{
+    background:#f1f1f1;
+    border-radius:10px;
+}
+
+/* Scrollbar handle */
+#questionList::-webkit-scrollbar-thumb{
+    background:#888;
+    border-radius:10px;
+}
+
+/* Scrollbar handle on hover */
+#questionList::-webkit-scrollbar-thumb:hover{
+    background:#555;
+}
+
 .sidebar li {
     padding: 10px;
     margin-bottom: 8px;
@@ -124,6 +154,12 @@ html, body {
     border: 1px solid #334155;
     border-radius: 5px;
     cursor: pointer;
+}
+.language-dropdown{
+    width:100%;
+    margin-bottom:15px;
+    padding:6px;
+    border-radius:5px;
 }
 .problem-header {
     font-family: 'Orbitron', sans-serif;
@@ -200,3 +236,46 @@ html, body {
     }
 }
 
+.editor{
+    display: flex;
+    width: 90%;
+    right:20%;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+/* editor area */
+.editor-container{
+    flex: 1;
+}
+
+/* right stats panel */
+.stats-panel{
+    width: 220px;
+    background: #0f1a2b;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+/* stat blocks */
+.stat{
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.passed{
+    background: #1f6f43;
+    color: #7CFFB2;
+}
+
+.wrong{
+    background: #7a1f2a;
+    color: #ff9aa2;
+}
+
+.notAttempted{
+    background: #2f3e55;
+    color: #c7d2fe;
+}

@@ -26,21 +26,39 @@
     <div class="main">
 
         <div class="problem-header">
-
-            <h2 id="questionTitle">Select a Problem</h2>
-            
-            <div class="top-controls">
-            <select id="languageSelect">
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="c">C</option>
-            </select>
-        </div>
-        </div>
+    <h2 id="questionTitle">Select a Problem</h2>
+</div>
 
         <p id="questionDescription"></p>
 
+        <div class="editor">
+
+    <div class="editor-container">
         <div id="editor"></div>
+    </div>
+
+    <div class="stats-panel">
+        <select id="languageSelect" class="language-dropdown">
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="c">C</option>
+    </select>
+        <h3>Progress</h3>
+
+        <div class="stat passed">
+            Passed: <span id="passedCount">0</span>
+        </div>
+
+        <div class="stat wrong">
+            Wrong: <span id="wrongCount">0</span>
+        </div>
+
+        <div class="stat notAttempted">
+            Not Attempted: <span id="notAttemptedCount">0</span>
+        </div>
+    </div>
+
+</div>
 
         <div class="buttons">
             <button class="run-btn" onclick="runCode()">Run</button>

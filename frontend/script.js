@@ -1,7 +1,10 @@
 let editor;
 let questions = [];
 let selectedQuestion = null;
-
+let passed = 0;
+let wrong = 0;
+let questionStatus = {}; 
+// questionId -> "passed" | "wrong"
 require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.45.0/min/vs' }});
 require(['vs/editor/editor.main'], function () {
 
@@ -30,6 +33,8 @@ function loadQuestions() {
         .then(res => res.json())
         .then(data => {
             questions = data;
+            // initialize not attempted
+document.getElementById("notAttemptedCount").innerText = data.length;
             const list = document.getElementById('questionList');
 
             data.forEach((q, index) => {
@@ -117,9 +122,39 @@ function runCode() {
     })
     .then(res => res.json())
     .then(data => {
-        document.getElementById('result').innerText =
-            data.status + " - " + data.message;
-    })
+
+    document.getElementById('result').innerText =
+        data.status + " - " + data.message;
+
+const qid = selectedQuestion.id;
+
+// first attempt
+if (!questionStatus[qid]) {
+
+    if (data.status.includes("SUCCESS")) {
+        questionStatus[qid] = "passed";
+        passed++;
+    } else {
+        questionStatus[qid] = "wrong";
+        wrong++;
+    }
+
+} else {
+
+    // question already attempted before
+    if (data.status.includes("SUCCESS") && questionStatus[qid] === "wrong") {
+        wrong--;
+        passed++;
+        questionStatus[qid] = "passed";
+    }
+}
+
+// update UI
+document.getElementById("passedCount").innerText = passed;
+document.getElementById("wrongCount").innerText = wrong;
+document.getElementById("notAttemptedCount").innerText =
+    questions.length - Object.keys(questionStatus).length;
+})
     .catch(error => {
         console.error("Error:", error);
     });
