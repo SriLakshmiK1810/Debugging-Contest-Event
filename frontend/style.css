@@ -266,16 +266,21 @@ html, body {
 }
 
 .passed{
-    background: #1f6f43;
-    color: #7CFFB2;
+    background: #02c661;
+    color: hwb(94 2% 71%);
 }
 
 .wrong{
-    background: #7a1f2a;
-    color: #ff9aa2;
+    background: #e2001a;
+    color: #7d0000;
 }
 
 .notAttempted{
     background: #2f3e55;
-    color: #c7d2fe;
+    color: #99b0d2;
+}
+.run-btn:disabled{
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
 }

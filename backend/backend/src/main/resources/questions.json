@@ -6,14 +6,16 @@
     "input": "121",
     "expectedOutput": "Palindrome",
     "languages": {
-      "python": "x = int(input())\nrev = 0\nwhile x > 0:\n    rev = rev * 10 + x % 10\n    x = x / 10\nif rev = x:\n    print(\"Palindrome\")\nelse:\n    print(\"Not Palindrome\")",
-
-      "java": "import java.util.*;\nclass Main {\n public static void main(String[] args) {\n  Scanner sc = new Scanner(System.in)\n  int x = sc.nextInt();\n  int rev = 0;\n  while(x > 0){\n   rev = rev * 10 + x % 10;\n   x = x / 10\n  }\n  if(rev == x)\n   System.out.println(\"Palindrome\");\n  else\n   System.out.println(\"Not Palindrome\");\n }\n}",
-
-      "c": "#include<stdio.h>\nint main(){\n int x, rev = 0;\n scanf(\"%d\", x);\n while(x > 0){\n  rev = rev * 10 + x % 10;\n  x = x / 10;\n }\n if(rev == x)\n  printf(\"Palindrome\");\n else\n  printf(\"Not Palindrome\");\n}"
-    }
+      "python": "x = int(input())\nrev = 0\nwhile x >= 0\n    rev = rev * 10 + x % 10\n    x = x / 10\nif rev = x:\n    print(\"Palindrome\")\nelse:\n    print(\"Not Palindrome\")",
+      "java": "import java.util.*;\nclass Main {\n public static main(String[] args) {\n  Scanner sc = new Scanner(System.in)\n  int x = sc.nextInt();\n  int rev = 0;\n  while(x > 0){\n   rev = rev * 10 + x % 10;\n   x = x / 10\n  }\n  if(rev == x)\n   System.out.println(\"Palindrome\");\n  else\n   System.out.println(\"Not Palindrome\");\n }\n}",
+      "c": "#include<stdio.h>\nint main(){\n int x, rev = 0;\n scanf(\"%d\", x);\n while(x > 0){\n  rev = rev * 10 + x % 10;\n  x = x / 10;\n }\n if(rev = x)\n  printf(\"Palindrome\");\n else\n  printf(\"Not Palindrome\");\n}"
+    },
+    "testCases": [
+      {"input":"121","expectedOutput":"Palindrome"},
+      {"input":"12321","expectedOutput":"Palindrome"},
+      {"input":"123","expectedOutput":"Not Palindrome"}
+    ]
   },
-
   {
     "id": 2,
     "title": "Reverse Integer (Debugging)",
@@ -21,14 +23,16 @@
     "input": "123",
     "expectedOutput": "321",
     "languages": {
-      "python": "n = int(input())\nrev = 0\nwhile n > 0:\n digit = n % 10\n rev = digit * 10\n n = n // 10\nprint(rev)",
-
-      "java": "import java.util.*;\nclass Main{\n public static void main(String[] args){\n  Scanner sc = new Scanner(System.in);\n  int n = sc.nextInt();\n  int rev;\n  while(n > 0){\n   int digit = n % 10;\n   rev = rev * 10 + digit;\n   n = n / 10;\n  }\n  System.out.println(rev);\n }\n}",
-
-      "c": "#include<stdio.h>\nint main(){\n int n, rev = 0;\n scanf(\"%d\", &n);\n while(n > 0){\n  int digit = n % 10;\n  rev = digit * 10;\n  n = n / 10;\n }\n printf(\"%d\", rev);\n}"
-    }
+      "python": "n = int(input())\nwhile n > 0:\n digit = n % 10\n rev = digit ** 10\n n = n // 10\nprint(rev)",
+      "java": "import java.util.*;\nclass Main{\n public static void main(string[] args){\n  Scanner sc = new Scanner(System.in);\n  int n = sc.nextInt();\n  int rev;\n  while(n > 0){\n   int digit = n % 10;\n   rev = rev * 10 + digit;\n   n = n / 10;\n  }\n  System.out.println(rev);\n }\n}",
+      "c": "/include<stdio.h>\nint main(){\n int n, rev = 0;\n scanf(\"%d\", &n);\n while(n > 0){\n  int digit = n % 10;\n  rev = digit * 10;\n  n = n / 10;\n }\n printf(\"%d\", rev);\n}"
+    },
+    "testCases": [
+      {"input":"123","expectedOutput":"321"},
+      {"input":"405","expectedOutput":"504"},
+      {"input":"7","expectedOutput":"7"}
+    ]
   },
-
   {
     "id": 3,
     "title": "Valid Parentheses (Debugging)",
@@ -37,235 +41,302 @@
     "expectedOutput": "Valid",
     "languages": {
       "python": "s = input()\nstack = []\nfor ch in s:\n if ch == '(':\n  stack.append(ch)\n else:\n  stack.pop()\nif stack == []:\n print(\"Valid\")",
-
-      "java": "import java.util.*;\nclass Main{\n public static void main(String[] args){\n  Scanner sc = new Scanner(System.in);\n  String s = sc.next();\n  Stack<Character> stack = new Stack<>();\n  for(char ch : s.toCharArray()){\n   if(ch == '(')\n    stack.push(ch);\n   else\n    stack.pop();\n  }\n  if(stack.empty())\n   System.out.println(\"Valid\");\n }\n}",
-
+      "java": "import java.util.*;\nclass Main{\n public static void main(String[] arg){\n  Scanner sc = new Scanner(System.in);\n  String s = sc.next();\n  Stack<Character> stack = new Stack<>();\n  for(char ch : s.toCharArray()){\n   if(ch == '(')\n    stack.push(ch);\n   else\n    stack.pop();\n  }\n  if(stack.empty())\n   System.out.println(\"Valid\");\n }\n}",
       "c": "#include<stdio.h>\nint main(){\n char s[100];\n int count = 0;\n scanf(\"%s\", s);\n for(int i=0; s[i] != '\\0'; i++){\n  if(s[i] == '(')\n   count++;\n  else\n   count--;\n }\n if(count = 0)\n  printf(\"Valid\");\n}"
-    }
+    },
+    "testCases": [
+      {"input":"()()","expectedOutput":"Valid"},
+      {"input":"((()))","expectedOutput":"Valid"},
+      {"input":"(()","expectedOutput":"Invalid"}
+    ]
   },
-
   {
     "id": 4,
     "title": "Contains Duplicate (Debugging)",
-    "description": "An array may contain repeating values.\nThe program checks for repetition but fails due to logical errors.",
+    "description": "An array may sometimes contain repeated elements.\nThe program attempts to detect whether any value appears more than once, but the implementation has errors.",
     "input": "5\n1 2 3 4 1",
     "expectedOutput": "Duplicate",
     "languages": {
       "python": "n = int(input())\narr = list(map(int,input().split()))\nfor i in range(n):\n for j in range(i+1,n):\n  if arr[i] == arr[j]:\n   print(\"Duplicate\")\nprint(\"No Duplicate\")",
-
       "java": "import java.util.*;\nclass Main{\n public static void main(String[] args){\n  Scanner sc = new Scanner(System.in);\n  int n = sc.nextInt();\n  int arr[] = new int[n];\n  for(int i=0;i<n;i++) arr[i]=sc.nextInt();\n  for(int i=0;i<n;i++){\n   for(int j=i+1;j<n;j++){\n    if(arr[i] = arr[j])\n     System.out.println(\"Duplicate\");\n   }\n  }\n }\n}",
-
-      "c": "#include<stdio.h>\nint main(){\n int n;\n scanf(\"%d\", &n);\n int arr[n];\n for(int i=0;i<n;i++) scanf(\"%d\", &arr[i]);\n for(int i=0;i<n;i++){\n  for(int j=i+1;j<n;j++){\n   if(arr[i]==arr[j])\n    printf(\"Duplicate\");\n  }\n }\n}"
-    }
+      "c": "#include<stdio.h>\nint main(){\n int n;\n scanf(\"%d\", &n);\n int arr[n];\n for(int i=0;i<=n;i++) scanf(\"%d\", &arr[i]);\n for(int i=0;i<n;i++){\n  for(int j=i+1;j<n;j++){\n   if(arr[i]==arr[j])\n    printf(\"Duplicate\");\n  }\n }\n}"
+    },
+    "testCases": [
+      {"input":"5\n1 2 3 4 1","expectedOutput":"Duplicate"},
+      {"input":"4\n1 2 3 4","expectedOutput":"No Duplicate"},
+      {"input":"6\n1 2 2 3 4 5","expectedOutput":"Duplicate"}
+    ]
   },
-
   {
     "id": 5,
     "title": "Best Time to Buy and Sell Stock (Debugging)",
-    "description": "Stock prices change daily.\nThe program attempts to compute maximum possible profit but has initialization mistakes.",
+    "description": "The first line of input contains an integer N, representing the number of days.\\nThe second line contains N space-separated integers representing the stock price on each day. Determine the maximum profit that can be obtained by buying on one day and selling on a later day.",
     "input": "6\n7 1 5 3 6 4",
     "expectedOutput": "5",
     "languages": {
       "python": "prices = list(map(int,input().split()))\nmin_price = 0\nprofit = 0\nfor p in prices:\n if p < min_price:\n  min_price = p\n profit = max(profit, p - min_price)\nprint(profit)",
-
       "java": "import java.util.*;\nclass Main{\n public static void main(String[] args){\n  Scanner sc = new Scanner(System.in);\n  int n = sc.nextInt();\n  int min = 0;\n  int profit;\n  for(int i=0;i<n;i++){\n   int price = sc.nextInt();\n   if(price < min)\n    min = price;\n   profit = Math.max(profit, price - min);\n  }\n  System.out.println(profit);\n }\n}",
-
-      "c": "#include<stdio.h>\nint main(){\n int n;\n scanf(\"%d\", &n);\n int min = 0, profit = 0;\n for(int i=0;i<n;i++){\n  int price;\n  scanf(\"%d\", &price);\n  if(price < min)\n   min = price;\n  if(price - min > profit)\n   profit = price - min;\n }\n printf(\"%d\", profit);\n}"
-    }
+      "c": "#include<stdio.h>\nint main(){\n int n;\n scanf(\"%d\", &n);\n int min = 0, profit = 0;\n for(int i=0;i<n;i++){\n  int price;\n  scanf(\"%d\", &price);\n  if(price < min)\n   min = price;\n  if(price - min > profit)\n   profit = price - min;\n }\n printf(\"%d\", profit);\n}"},
+      "testCases": [
+      {"input":"6\n7 1 5 3 6 4","expectedOutput":"5"},
+      {"input":"5\n1 2 3 4 5","expectedOutput":"4"},
+      {"input":"4\n7 6 4 3","expectedOutput":"0"}
+    ]
   },
-
   {
     "id": 6,
     "title": "Binary Search (Debugging)",
-    "description": "A sorted list allows faster lookup using divide-and-search.\nThe code below tries to find the index of a target element but contains boundary errors.",
+    "description": "A sorted list allows faster lookup using divide-and-search.\\nThe code below tries to find the index of a target element but contains boundary errors.",
     "input": "5\n1 2 3 4 5\n4",
     "expectedOutput": "3",
     "languages": {
       "python": "arr = list(map(int,input().split()))\ntarget = int(input())\nl = 0\nr = len(arr)\nwhile l <= r:\n mid = (l+r)/2\n if arr[mid] == target:\n  print(mid)\n elif arr[mid] < target:\n  l = mid + 1\n else:\n  r = mid - 1",
-
       "java": "import java.util.*;\nclass Main{\n public static void main(String[] args){\n  Scanner sc = new Scanner(System.in);\n  int n = sc.nextInt();\n  int arr[] = new int[n];\n  for(int i=0;i<n;i++) arr[i]=sc.nextInt();\n  int target = sc.nextInt();\n  int l=0,r=n;\n  while(l<=r){\n   int mid = (l+r)/2;\n   if(arr[mid]==target)\n    System.out.println(mid);\n   else if(arr[mid]<target)\n    l=mid+1;\n   else\n    r=mid-1;\n  }\n }\n}",
-
       "c": "#include<stdio.h>\nint main(){\n int n;\n scanf(\"%d\", &n);\n int arr[n];\n for(int i=0;i<n;i++) scanf(\"%d\", &arr[i]);\n int target;\n scanf(\"%d\", &target);\n int l=0,r=n;\n while(l<=r){\n  int mid=(l+r)/2;\n  if(arr[mid]==target)\n   printf(\"%d\", mid);\n  else if(arr[mid]<target)\n   l=mid+1;\n  else\n   r=mid-1;\n }\n}"
-    }
+    },
+    "testCases": [
+      {"input":"5\n1 2 3 4 5\n4","expectedOutput":"3"},
+      {"input":"6\n10 20 30 40 50 60\n30","expectedOutput":"2"},
+      {"input":"3\n5 10 15\n7","expectedOutput":"-1"}
+    ]
   },
-    {
-      "id":7,
-      "title":"Find the Difference Between Largest and Smallest Element in Array (Debugging)",
-      "description":"The difference between the largest and smallest elements in an array can be calculated.\nThe program attempts to compute it but contains errors.",
-      "input":"5\n3 8 2 7 1",
-      "expectedOutput":"7",
-      "languages":{
-        "python":"n=int(input())\na=list(map(int,input().split()))\nmax=a[0]\nmin=a[0]\nfor i in range(n):\n if a[i]>max:\n  max=a[i]\n if a[i]<min\n  min=a[i]\nprint(max-minimum)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in)\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int max=a[0],min=a[0];\n  for(int i=0;i<n;i++){\n   if(a[i]>max)\n    max=a[i];\n   if(a[i]<min)\n    min=a[i]\n  }\n  System.out.println(maximum-min);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,i,max,min;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n max=a[0];\n min=a[0];\n for(i=0;i<n;i++){\n  if(a[i]>max) max=a[i];\n  if(a[i]<min) min=a[i]\n }\n printf(\"%d\",maximum-min);\n}"
-      }
+  {
+    "id": 7,
+    "title": "Find Difference Between Largest and Smallest Element (Debugging)",
+    "description": "The difference between the largest and smallest elements in an array can be calculated.\\nThe program attempts to compute it but contains errors.",
+    "input": "5\n3 8 2 7 1",
+    "expectedOutput": "7",
+    "languages":{
+      "python":"n=int(input())\na=list(map(int,input().split()))\nmax=a[0]\nmin=a[0]\nfor i in range(n):\n if a[i]>max:\n  max=a[i]\n if a[i]<min\n  min=a[i]\nprint(max-minimum)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in)\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int max=a[0],min=a[0];\n  for(int i=0;i<n;i++){\n   if(a[i]>max)\n    max=a[i];\n   if(a[i]<min)\n    min=a[i]\n  }\n  System.out.println(maximum-min);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,i,max,min;\n scanf( \"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n max=a[0];\n min=a[0];\n for(i=0;i<n;i++){\n  if(a[i]>max) max=a[i];\n  if(a[i]<min) min=a[i]\n }\n printf(\"%d\",maximum-min);\n} "
     },
+    "testCases": [
+      {"input":"5\n3 8 2 7 1","expectedOutput":"7"},
+      {"input":"4\n10 5 8 2","expectedOutput":"8"},
+      {"input":"3\n7 7 7","expectedOutput":"0"}
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Check if a Number is Perfect Number (Debugging)",
+    "description": "A perfect number is equal to the sum of its proper divisors.\\nThe program tries to verify this but has errors.\"",
+    "input": "6",
+    "expectedOutput": "Perfect",
+    "languages":{
+      "python":"n=int(input())\nsum=0\nfor i in range(1,n):\n if n%i==0\n  sum=sum+i\nif sum=n:\n print(\"Perfect\")\nelse\n print(\"Not Perfect\")",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int sum=0;\n  for(int i=1;i<n;i++){\n   if(n%i==0)\n    sum=sum+i\n  }\n  if(sum=n)\n   System.out.println(\"Perfect\");\n  else\n   System.out.println(\"Not Perfect\");\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,i,sum=0;\n scanf(\"%d\",&n);\n for(i=1;i<n;i++){\n  if(n%i==0)\n   sum=sum+i\n }\n if(sum=n)\n  printf(\"Perfect\");\n else\n  printf(\"Not Perfect\");\n}"
+    } ,
+    "testCases": [
+      {"input":"6","expectedOutput":"Perfect"},
+      {"input":"28","expectedOutput":"Perfect"},
+      {"input":"12","expectedOutput":"Not Perfect"}
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Check if a String is Anagram (Debugging)",
+    "description": "Two strings are anagrams if they contain the same characters in different order.\\nThe program attempts to check this but has mistakes.",
+    "input": "listen\nsilent",
+    "expectedOutput": "Anagram",
+    "languages":{
+      "python":"s1=int(input())\ns2=int(input())\nif sorted(s1)=sorted(s2):\n println(\"Anagram\")\nelse:\n printf(\"Not Anagram\"",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  String s1=sc.nextLine();\n  String s2=sc.nextLine();\n  char a[]=s1.toCharArray();\n  char b[]=s2.toCharArray();\n  Arrays.sort(a);\n  Arrays.sort(b);\n  if(a==b)\n   System.out.println(\"Anagram\")\n  else\n   System.out.println(\"Not Anagram\");\n }\n}",
+      "c":"#include<stdio.h>\n#include<string.h>\nint main(){\n char s1[100],s2[100];\n scanf(\"%s\",s1);\n scanf(\"%s\",s2);\n if(strcmp(s1,s2)=0)\n  printf(\"Anagram\");\n else\n  printf(\"Not Anagram\");\n}"
+    } ,
+    "testCases": [
+      {"input":"listen\nsilent","expectedOutput":"Anagram"},
+      {"input":"hello\nbello","expectedOutput":"Not Anagram"},
+      {"input":"race\necar","expectedOutput":"Anagram"}
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Find LCM of Two Numbers (Debugging)",
+    "description": "The least common multiple (LCM) is the smallest number divisible by both numbers.\\nThe program attempts to compute it but has errors",
+    "input": "4 6",
+    "expectedOutput": "12",
+    "languages":{
+      "python":"a,b=map(int,input().split())\nmax=a if a>b else b\nwhile True\n if max%a==0 and max%b==0:\n  print(lcm)\n  break\n max=max+1",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int a=sc.nextInt();\n  int b=sc.nextInt();\n  int max=a>b?a:b;\n  while(true){\n   if(max%a==0 && max%b==0)\n    break;\n   max++\n  }\n  System.out.println(lcm);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int a,b,max;\n scanf(\"%d %d\",&a,&b);\n max=a>b?a:b;\n while(1){\n  if(max%a==0 && max%b==0)\n   break;\n  max++;\n }\n printf(\"%d\",lcm);\n}"
+    }  ,
+    "testCases": [
+      {"input":"4 6","expectedOutput":"12"},
+      {"input":"5 10","expectedOutput":"10"},
+      {"input":"7 3","expectedOutput":"21"}
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Find Second Largest Element in an Array (Debugging)",
+    "description": "The second largest element in an array is the next largest after the maximum value.\\nThe program tries to find it but has errors.",
+    "input": "5\n4 2 8 6 3",
+    "expectedOutput": "6",
+    "languages":{
+      "python":"n=int(input())\na=list(map(int,input().split()))\nmax=a[0]\nsec=0\nfor i in range(n):\n if a[i]>max:\n  sec=max\n  max=a[i]\nprint(second)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int max=a[0],sec=0;\n  for(int i=0;i<n;i++){\n   if(a[i]>max){\n    sec=max;\n    max=a[i];\n   }\n  }\n  System.out.println(second);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,i,max,sec=0;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n max=a[0];\n for(i=0;i<n;i++){\n  if(a[i]>max){\n   sec=max;\n   max=a[i];\n  }\n }\n printf(\"%d\",second);\n}"
+    }  ,
+    "testCases": [
+      {"input":"5\n4 2 8 6 3","expectedOutput":"6"},
+      {"input":"4\n10 20 5 15","expectedOutput":"15"},
+      {"input":"3\n7 7 7","expectedOutput":"7"}
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Bubble Sort (Debugging)",
+    "description": "A list of numbers can be arranged in ascending order by repeatedly swapping adjacent elements that are in the wrong order.\\nThe program below attempts to perform this sorting process but contains mistakes.",
+    "input": "5\n5 1 4 2 3",
+    "expectedOutput": "1 2 3 4 5",
+    "languages":{
+      "python":"n=int(input())\na=list(map(int,input().split()))\nfor i in range(n):\n for j in range(n-i):\n  if a[j]>a[j+1]\n   a[j],a[j+1]=a[j+1],a[j]\nprint(a)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  for(int i=0;i<n;i++){\n   for(int j=0;j<n-i;j++){\n    if(a[j]>a[j+1]){\n     int temp=a[j];\n     a[j]=a[j+1];\n     a[j+1]=temp;\n    }\n   }\n  }\n  System.out.println(a);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,i,j,temp;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n for(i=0;i<n;i++){\n  for(j=0;j<n-i;j++){\n   if(a[j]>a[j+1]){\n    temp=a[j];\n    a[j]=a[j+1];\n    a[j+1]=temp;\n   }\n  }\n }\n printf(\"Sorted\");\n}"
+    }  ,
+    "testCases": [
+      {"input":"5\n5 1 4 2 3","expectedOutput":"1 2 3 4 5"},
+      {"input":"4\n10 2 8 6","expectedOutput":"2 6 8 10"},
+      {"input":"3\n3 2 1","expectedOutput":"1 2 3"}
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Find Length of String Without Built-in Function (Debugging)",
+    "description": "The length of a string can be calculated by counting characters.\\nThe program tries to do this without built-in functions but has errors.",
+    "input": "Welcome to Logic Relay",
+    "expectedOutput": "22",
+    "languages":{
+      "python":"s=input()\ni=0\nwhile s[i]!=NULL:\n i=i+1\nprint(length)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  String s=sc.nextLine();\n  int i=0;\n  while(s.charAt(i)!=NULL){\n   i++;\n  }\n  System.out.println(length);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n char s[100];\n int i=0;\n scanf(\"%s\",s);\n while(s[i]!=NULL)\n  i++;\n printf(\"%d\",length);\n}"
+    }  ,
+    "testCases": [
+      {"input":"Welcome to Logic Relay","expectedOutput":"22"},
+      {"input":"Hello","expectedOutput":"5"},
+      {"input":"","expectedOutput":"0"}
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Check if a Number is Armstrong (Debugging)",
+    "description": "An Armstrong number is equal to the sum of cubes of its digits.\\nThe program attempts to check this but contains errors",
+    "input": "153",
+    "expectedOutput": "Armstrong",
+    "languages":{
+      "python":"n=int(input())\nsum=0\nt=n\nwhile n>0\n d=n%10\n sum=sum+d*d*d\n n=n/10\nif sum=t:\n print(\"Armstrong\")\nelse:\n print(\"Not Armstrong\")",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int sum=0,t=n;\n  while(n>0){\n   int d=n%10;\n   sum=sum+d*d*d;\n   n=n/10\n  }\n  if(sum=t)\n   System.out.println(\"Armstrong\");\n  else\n   System.out.println(\"Not Armstrong\");\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,sum=0,d,t;\n scanf(\"%d\",&n);\n t=n;\n while(n>0){\n  d=n%10;\n  sum=sum+d*d*d;\n  n=n/10\n }\n if(sum=t)\n  printf(\"Armstrong\");\n else\n  printf(\"Not Armstrong\");\n}"
+    }  ,
+    "testCases": [
+      {"input":"153","expectedOutput":"Armstrong"},
+      {"input":"370","expectedOutput":"Armstrong"},
+      {"input":"123","expectedOutput":"Not Armstrong"}
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Convert Minutes into Hours and Minutes (Debugging)",
+    "description": "Time measured in minutes can be expressed as hours and remaining minutes.\\nThe program attempts this conversion but contains errors.",
+    "input": "130",
+    "expectedOutput": "2 10",
+    "languages":{
+      "python":"m=int(input())\nh=m/60\nmin=m%60\nprint(h,minutes)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in)\n  int m=sc.nextInt();\n  int h=m/60\n  int min=m%60;\n  System.out.println(h+\" \"+minutes);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int m,h,min;\n scanf(\"%d\",m);\n h=m/60\n min=m%60;\n printf(\"%d %d\",h,minutes);\n}"
+    }  ,
+    "testCases": [
+      {"input":"130","expectedOutput":"2 10"},
+      {"input":"75","expectedOutput":"1 15"},
+      {"input":"45","expectedOutput":"0 45"}
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Merge Two Arrays (Debugging)",
+    "description": "\"Two arrays of integers can be combined to form a single array containing all elements of both arrays.\\nThe given program tries to merge the arrays but the implementation has errors",
+    "input": "3\n1 2 3\n3\n4 5 6",
+    "expectedOutput": "1 2 3 4 5 6",
+    "languages":{
+      "python":"n=int(input())\na=list(map(int,input().split()))\nm=int(input())\nb=list(map(int,input().split()))\nfor i in range(n):\n a.append(b[i])\nprint(a",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int m=sc.nextInt();\n  int b[]=new int[m];\n  for(int i=0;i<m;i++)\n   b[i]=sc.nextInt()\n  for(int i=0;i<m;i++)\n   a[n+i]=b[i];\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,m,i;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n scanf(\"%d\",&m);\n int b[m];\n for(i=0;i<m;i++) scanf(\"%d\",&b[i]);\n for(i=0;i<m;i++)\n  a[n+i]=b[i];\n}"
+    } ,
+    "testCases": [
+      {"input":"3\n1 2 3\n3\n4 5 6","expectedOutput":"1 2 3 4 5 6"},
+      {"input":"2\n1 2\n2\n3 4","expectedOutput":"1 2 3 4"},
+      {"input":"1\n5\n1\n10","expectedOutput":"5 10"}
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Find Sum of Diagonal Elements in a Matrix (Debugging)",
+    "description": "The diagonal elements of a square matrix run from the top-left to bottom-right.\nThe program tries to compute their sum but has mistakes",
+    "input": "2\n1 2\n3 4",
+    "expectedOutput": "5",
+    "languages":{
+      "python":"n=int(input())\nmat=[list(map(int,input().split())) for i in range(n)]\nsum=0\nfor i in range(n):\n sum=sum+mat[i][i]\nprint(total)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[][]=new int[n][n];\n  for(int i=0;i<n;i++)\n   for(int j=0;j<n;j++)\n    a[i][j]=sc.nextInt();\n  int sum=0;\n  for(int i=0;i<=n;i++)\n   sum=sum+a[i][i];\n  System.out.println(total);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,i,j,sum=0;\n scanf(\"%d\",&n);\n int a[n][n];\n for(i=0;i<n;i++)\n  for(j=0;j<n;j++)\n   scanf(\"%d\",&a[i][j]);\n for(i=0;i<=n;i++)\n  sum=sum+a[i][i];\n printf(\"%d\",total);\n}"
+    }  ,
+    "testCases": [
+      {"input":"2\n1 2\n3 4","expectedOutput":"5"},
+      {"input":"3\n1 2 3\n4 5 6\n7 8 9","expectedOutput":"15"},
+      {"input":"1\n10","expectedOutput":"10"}
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Print the Transpose of a Matrix (Debugging)",
+    "description": "The transpose of a matrix is obtained by swapping rows and columns.\\nThe program attempts to print the transpose but contains errors.",
+    "input": "2 2\n1 2\n3 4",
+    "expectedOutput": "1 3\n2 4",
+    "languages":{
+      "python":"r,c=map(int,input().split())\nmat=[list(map(int(input().split())) for i in range(r)]\nfor i in range(r):\n for i in range(c):\n  print(mat[i][j],end=\" \")\n print()",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int r=sc.nextInt();\n  int c=sc.nextInt();\n  int a[][]=new int[r][c];\n  for(int i=0;i<r;i++)\n   for(int j=0;j<c;j++)\n    a[i][j]=sc.nextInt();\n  for(int i=0;i<r;i++){\n   for(int j=0;j<c;j++)\n    System.out.print(a[i][j]+\" \");\n   System.out.println();\n  }\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int r,c,i,j;\n scanf(\"%d %d\",&r,&c);\n int a[r][c];\n for(i=0;i<r;i++)\n  for(j=0;j<c;j++)\n   scanf(\"%d\",&a[i][j]);\n for(i=0;i<r;i++){\n  for(j=0;j<c;j++)\n   printf(\"%d \",a[i][j]);\n  printf(\"\\n\");\n }\n}"
+    }  ,
+    "testCases": [
+      {"input":"2 2\n1 2\n3 4","expectedOutput":"1 3\n2 4"},
+      {"input":"3 2\n1 2\n3 4\n5 6","expectedOutput":"1 3 5\n2 4 6"},
+      {"input":"1 3\n7 8 9","expectedOutput":"7\n8\n9"}
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Find Product of Array Elements (Debugging)",
+    "description": "The product of array elements is obtained by multiplying all numbers.\\nThe program attempts to calculate it but contains errors.",
+    "input": "4\n1 2 3 4",
+    "expectedOutput": "24",
+    "languages":{
+      "python":"n=int(input())\na=list(map(int,input().split()))\nprod=0\nfor i in range(n):\n prod=prod+a[i]\nprint(prod)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int prod=0;\n  for(int i=0;i<n;i++)\n   prod=prod+a[i];\n  System.out.println(product);\n }\n}",
+      "c":"#include<stdio.h>\nint main(){\n int n,i,prod=0;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n for(i=0;i<n;i++)\n  prod=prod+a[i];\n printf(\"%d\",product);\n}"
+    },
+    "testCases": [
+      {"input":"4\n1 2 3 4","expectedOutput":"24"},
+      {"input":"3\n5 6 2","expectedOutput":"60"},
+      {"input":"5\n1 1 1 1 1","expectedOutput":"1"}
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Count Occurrences of a Character in a String (Debugging)",
+    "description": "A string may contain multiple occurrences of a character.\\nThe program tries to count them but has errors.",
+    "input": "hello\nl",
+    "expectedOutput": "2",
+    "languages":{
+      "python":"s=input()\nch=input()\ncount=0\nfor i in s:\n if i=ch:\n  count=count+1\nprint(cnt)",
+      "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  String s=sc.nextLine();\n  char ch=sc.next().charAt(0);\n  int count=0;\n  for(int i=0;i<=s.length();i++){\n   if(s.charAt(i)==ch)\n    count++;\n  }\n  System.out.println(cnt);\n }\n}",
+      "c":"#include<stdio.h>\n#include<string.h>\nint main(){\n char s[100],ch;\n int i,count=0;\n scanf(\"%s\",s);\n scanf(\"%c\",&ch);\n for(i=0;i<=strlen(s);i++)\n  if(s[i]==ch)\n   count++;\n printf(\"%d\",cnt);\n}"
+       },
+    "testCases": [
+      {"input":"hello\nl","expectedOutput":"2"},
+      {"input":"banana\na","expectedOutput":"3"},
+      {"input":"world\nz","expectedOutput":"0"}
+    ]
+  }
 
-    {
-      "id":8,
-      "title":"Check if a Number is Perfect Number (Debugging)",
-      "description":"A perfect number is equal to the sum of its proper divisors.\nThe program tries to verify this but has errors.",
-      "input":"6",
-      "expectedOutput":"Perfect",
-      "languages":{
-        "python":"n=int(input())\nsum=0\nfor i in range(1,n):\n if n%i==0\n  sum=sum+i\nif sum=n:\n print(\"Perfect\")\nelse\n print(\"Not Perfect\")",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int sum=0;\n  for(int i=1;i<n;i++){\n   if(n%i==0)\n    sum=sum+i\n  }\n  if(sum=n)\n   System.out.println(\"Perfect\");\n  else\n   System.out.println(\"Not Perfect\");\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,i,sum=0;\n scanf(\"%d\",&n);\n for(i=1;i<n;i++){\n  if(n%i==0)\n   sum=sum+i\n }\n if(sum=n)\n  printf(\"Perfect\");\n else\n  printf(\"Not Perfect\");\n}"
-      }
-    },
-
-    {
-      "id":9,
-      "title":"Check if a String is Anagram (Debugging)",
-      "description":"Two strings are anagrams if they contain the same characters in different order.\nThe program attempts to check this but has mistakes.",
-      "input":"listen\nsilent",
-      "expectedOutput":"Anagram",
-      "languages":{
-        "python":"s1=input()\ns2=input()\nif sorted(s1)=sorted(s2):\n print(\"Anagram\")\nelse:\n print(\"Not Anagram\"",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  String s1=sc.nextLine();\n  String s2=sc.nextLine();\n  char a[]=s1.toCharArray();\n  char b[]=s2.toCharArray();\n  Arrays.sort(a);\n  Arrays.sort(b);\n  if(a==b)\n   System.out.println(\"Anagram\")\n  else\n   System.out.println(\"Not Anagram\");\n }\n}",
-        "c":"#include<stdio.h>\n#include<string.h>\nint main(){\n char s1[100],s2[100];\n scanf(\"%s\",s1);\n scanf(\"%s\",s2);\n if(strcmp(s1,s2)=0)\n  printf(\"Anagram\");\n else\n  printf(\"Not Anagram\");\n}"
-      }
-    },
-
-    {
-      "id":10,
-      "title":"Find LCM of Two Numbers (Debugging)",
-      "description":"The least common multiple (LCM) is the smallest number divisible by both numbers.\nThe program attempts to compute it but has errors.",
-      "input":"4 6",
-      "expectedOutput":"12",
-      "languages":{
-        "python":"a,b=map(int,input().split())\nmax=a if a>b else b\nwhile True\n if max%a==0 and max%b==0:\n  print(lcm)\n  break\n max=max+1",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int a=sc.nextInt();\n  int b=sc.nextInt();\n  int max=a>b?a:b;\n  while(true){\n   if(max%a==0 && max%b==0)\n    break;\n   max++\n  }\n  System.out.println(lcm);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int a,b,max;\n scanf(\"%d %d\",&a,&b);\n max=a>b?a:b;\n while(1){\n  if(max%a==0 && max%b==0)\n   break;\n  max++;\n }\n printf(\"%d\",lcm);\n}"
-      }
-    },
-
-    {
-      "id":11,
-      "title":"Find Second Largest Element in an Array (Debugging)",
-      "description":"The second largest element in an array is the next largest after the maximum value.\nThe program tries to find it but has errors.",
-      "input":"5\n4 2 8 6 3",
-      "expectedOutput":"6",
-      "languages":{
-        "python":"n=int(input())\na=list(map(int,input().split()))\nmax=a[0]\nsec=0\nfor i in range(n):\n if a[i]>max:\n  sec=max\n  max=a[i]\nprint(second)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int max=a[0],sec=0;\n  for(int i=0;i<n;i++){\n   if(a[i]>max){\n    sec=max;\n    max=a[i];\n   }\n  }\n  System.out.println(second);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,i,max,sec=0;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n max=a[0];\n for(i=0;i<n;i++){\n  if(a[i]>max){\n   sec=max;\n   max=a[i];\n  }\n }\n printf(\"%d\",second);\n}"
-      }
-    },
-
-    {
-      "id":12,
-      "title":"Bubble Sort (Debugging)",
-      "description":"Bubble sort repeatedly swaps adjacent elements if they are in the wrong order.\nThe program below attempts to implement it but contains errors.",
-      "input":"5\n5 1 4 2 3",
-      "expectedOutput":"1 2 3 4 5",
-      "languages":{
-        "python":"n=int(input())\na=list(map(int,input().split()))\nfor i in range(n):\n for j in range(n-i):\n  if a[j]>a[j+1]\n   a[j],a[j+1]=a[j+1],a[j]\nprint(a)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  for(int i=0;i<n;i++){\n   for(int j=0;j<n-i;j++){\n    if(a[j]>a[j+1]){\n     int temp=a[j];\n     a[j]=a[j+1];\n     a[j+1]=temp;\n    }\n   }\n  }\n  System.out.println(a);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,i,j,temp;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n for(i=0;i<n;i++){\n  for(j=0;j<n-i;j++){\n   if(a[j]>a[j+1]){\n    temp=a[j];\n    a[j]=a[j+1];\n    a[j+1]=temp;\n   }\n  }\n }\n printf(\"Sorted\");\n}"
-      }
-    },
-
-    {
-      "id":13,
-      "title":"Find Length of String Without Built-in Function (Debugging)",
-      "description":"The length of a string can be calculated by counting characters.\nThe program tries to do this without built-in functions but has errors.",
-      "input":"hello",
-      "expectedOutput":"5",
-      "languages":{
-        "python":"s=input()\ni=0\nwhile s[i]!=NULL:\n i=i+1\nprint(length)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  String s=sc.nextLine();\n  int i=0;\n  while(s.charAt(i)!=NULL){\n   i++;\n  }\n  System.out.println(length);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n char s[100];\n int i=0;\n scanf(\"%s\",s);\n while(s[i]!=NULL)\n  i++;\n printf(\"%d\",length);\n}"
-      }
-    },
-
-    {
-      "id":14,
-      "title":"Check if a Number is Armstrong (Debugging)",
-      "description":"An Armstrong number is equal to the sum of cubes of its digits.\nThe program attempts to check this but contains errors.",
-      "input":"153",
-      "expectedOutput":"Armstrong",
-      "languages":{
-        "python":"n=int(input())\nsum=0\nt=n\nwhile n>0\n d=n%10\n sum=sum+d*d*d\n n=n/10\nif sum=t:\n print(\"Armstrong\")\nelse:\n print(\"Not Armstrong\")",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int sum=0,t=n;\n  while(n>0){\n   int d=n%10;\n   sum=sum+d*d*d;\n   n=n/10\n  }\n  if(sum=t)\n   System.out.println(\"Armstrong\");\n  else\n   System.out.println(\"Not Armstrong\");\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,sum=0,d,t;\n scanf(\"%d\",&n);\n t=n;\n while(n>0){\n  d=n%10;\n  sum=sum+d*d*d;\n  n=n/10\n }\n if(sum=t)\n  printf(\"Armstrong\");\n else\n  printf(\"Not Armstrong\");\n}"
-      }
-    },
-    {
-      "id":15,
-      "title":"Convert Minutes into Hours and Minutes (Debugging)",
-      "description":"Time measured in minutes can be expressed as hours and remaining minutes.\nThe program attempts this conversion but contains errors.",
-      "input":"130",
-      "expectedOutput":"2 10",
-      "languages":{
-        "python":"m=int(input())\nh=m/60\nmin=m%60\nprint(h,minutes)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in)\n  int m=sc.nextInt();\n  int h=m/60\n  int min=m%60;\n  System.out.println(h+\" \"+minutes);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int m,h,min;\n scanf(\"%d\",m);\n h=m/60\n min=m%60;\n printf(\"%d %d\",h,minutes);\n}"
-      }
-    },
-
-    {
-      "id":16,
-      "title":"Merge Two Arrays (Debugging)",
-      "description":"Two arrays can be combined into one larger array.\nThe program tries to merge them but has errors.",
-      "input":"3\n1 2 3\n3\n4 5 6",
-      "expectedOutput":"1 2 3 4 5 6",
-      "languages":{
-        "python":"n=int(input())\na=list(map(int,input().split()))\nm=int(input())\nb=list(map(int,input().split()))\nfor i in range(n):\n a.append(b[i])\nprint(a",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int m=sc.nextInt();\n  int b[]=new int[m];\n  for(int i=0;i<m;i++)\n   b[i]=sc.nextInt()\n  for(int i=0;i<m;i++)\n   a[n+i]=b[i];\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,m,i;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n scanf(\"%d\",&m);\n int b[m];\n for(i=0;i<m;i++) scanf(\"%d\",&b[i]);\n for(i=0;i<m;i++)\n  a[n+i]=b[i];\n}"
-      }
-    },
-
-    {
-      "id":17,
-      "title":"Find the Sum of Diagonal Elements in a Matrix (Debugging)",
-      "description":"The diagonal elements of a square matrix run from the top-left to bottom-right.\nThe program tries to compute their sum but has mistakes.",
-      "input":"2\n1 2\n3 4",
-      "expectedOutput":"5",
-      "languages":{
-        "python":"n=int(input())\nmat=[list(map(int,input().split())) for i in range(n)]\nsum=0\nfor i in range(n):\n sum=sum+mat[i][i]\nprint(total)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[][]=new int[n][n];\n  for(int i=0;i<n;i++)\n   for(int j=0;j<n;j++)\n    a[i][j]=sc.nextInt();\n  int sum=0;\n  for(int i=0;i<=n;i++)\n   sum=sum+a[i][i];\n  System.out.println(total);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,i,j,sum=0;\n scanf(\"%d\",&n);\n int a[n][n];\n for(i=0;i<n;i++)\n  for(j=0;j<n;j++)\n   scanf(\"%d\",&a[i][j]);\n for(i=0;i<=n;i++)\n  sum=sum+a[i][i];\n printf(\"%d\",total);\n}"
-      }
-    },
-
-    {
-      "id":18,
-      "title":"Print the Transpose of a Matrix (Debugging)",
-      "description":"The transpose of a matrix is obtained by swapping rows and columns.\nThe program attempts to print the transpose but contains errors.",
-      "input":"2 2\n1 2\n3 4",
-      "expectedOutput":"1 3\n2 4",
-      "languages":{
-        "python":"r,c=map(int,input().split())\nmat=[list(map(int,input().split())) for i in range(r)]\nfor i in range(r):\n for j in range(c):\n  print(mat[i][j],end=\" \")\n print()",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int r=sc.nextInt();\n  int c=sc.nextInt();\n  int a[][]=new int[r][c];\n  for(int i=0;i<r;i++)\n   for(int j=0;j<c;j++)\n    a[i][j]=sc.nextInt();\n  for(int i=0;i<r;i++){\n   for(int j=0;j<c;j++)\n    System.out.print(a[i][j]+\" \");\n   System.out.println();\n  }\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int r,c,i,j;\n scanf(\"%d %d\",&r,&c);\n int a[r][c];\n for(i=0;i<r;i++)\n  for(j=0;j<c;j++)\n   scanf(\"%d\",&a[i][j]);\n for(i=0;i<r;i++){\n  for(j=0;j<c;j++)\n   printf(\"%d \",a[i][j]);\n  printf(\"\\n\");\n }\n}"
-      }
-    },
-
-    {
-      "id":19,
-      "title":"Find the Product of Array Elements (Debugging)",
-      "description":"The product of array elements is obtained by multiplying all numbers.\nThe program attempts to calculate it but contains errors.",
-      "input":"4\n1 2 3 4",
-      "expectedOutput":"24",
-      "languages":{
-        "python":"n=int(input())\na=list(map(int,input().split()))\nprod=0\nfor i in range(n):\n prod=prod+a[i]\nprint(prod)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  int n=sc.nextInt();\n  int a[]=new int[n];\n  for(int i=0;i<n;i++)\n   a[i]=sc.nextInt();\n  int prod=0;\n  for(int i=0;i<n;i++)\n   prod=prod+a[i];\n  System.out.println(product);\n }\n}",
-        "c":"#include<stdio.h>\nint main(){\n int n,i,prod=0;\n scanf(\"%d\",&n);\n int a[n];\n for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n for(i=0;i<n;i++)\n  prod=prod+a[i];\n printf(\"%d\",product);\n}"
-      }
-    },
-
-    {
-      "id":20,
-      "title":"Count Occurrences of a Character in a String (Debugging)",
-      "description":"A string may contain multiple occurrences of a character.\nThe program tries to count them but has errors.",
-      "input":"hello\nl",
-      "expectedOutput":"2",
-      "languages":{
-        "python":"s=input()\nch=input()\ncount=0\nfor i in s:\n if i=ch:\n  count=count+1\nprint(cnt)",
-        "java":"import java.util.*;\nclass Main{\n public static void main(String args[]){\n  Scanner sc=new Scanner(System.in);\n  String s=sc.nextLine();\n  char ch=sc.next().charAt(0);\n  int count=0;\n  for(int i=0;i<=s.length();i++){\n   if(s.charAt(i)==ch)\n    count++;\n  }\n  System.out.println(cnt);\n }\n}",
-        "c":"#include<stdio.h>\n#include<string.h>\nint main(){\n char s[100],ch;\n int i,count=0;\n scanf(\"%s\",s);\n scanf(\"%c\",&ch);\n for(i=0;i<=strlen(s);i++)\n  if(s[i]==ch)\n   count++;\n printf(\"%d\",cnt);\n}"
-      }
-    }
-  ]
+]

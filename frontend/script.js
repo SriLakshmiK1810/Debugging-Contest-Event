@@ -32,22 +32,28 @@ function loadQuestions() {
     fetch('http://localhost:8080/questions')
         .then(res => res.json())
         .then(data => {
+
             questions = data;
-            // initialize not attempted
-document.getElementById("notAttemptedCount").innerText = data.length;
+
+            document.getElementById("notAttemptedCount").innerText = data.length;
+
             const list = document.getElementById('questionList');
+            list.innerHTML = "";   // important
 
             data.forEach((q, index) => {
-    const li = document.createElement('li');
-    li.textContent = "Relay-" + String(index + 1).padStart(2, '0');
+                const li = document.createElement('li');
 
-    li.onclick = () => selectQuestion(q, index, li);  // pass li also
+                li.textContent = "Relay-" + String(index + 1).padStart(2, '0');
 
-    list.appendChild(li);
-});
+                li.onclick = () => selectQuestion(q, index, li);
+
+                list.appendChild(li);
+            });
         });
 }
-
+document.getElementById("passedCount").innerText = 0;
+document.getElementById("wrongCount").innerText = 0;
+document.getElementById("notAttemptedCount").innerText = questions.length;
 function selectQuestion(q, index, clickedElement) {
 
     selectedQuestion = q;
@@ -85,11 +91,17 @@ window.onload = function() {
     }
 };
 console.log("Run button clicked");
+
 function runCode() {
     if (!selectedQuestion) {
         alert("Please select a question first!");
         return;
     }
+ const runButton = document.querySelector(".run-btn");
+
+    // disable button
+    runButton.disabled = true;
+    runButton.innerText = "Running...";
 
     const code = editor.getValue();
     const selectedLanguage = document.getElementById('languageSelect').value;
@@ -126,6 +138,9 @@ function runCode() {
     document.getElementById('result').innerText =
         data.status + " - " + data.message;
 
+        runButton.disabled = false;
+        runButton.innerText = "Run";
+
 const qid = selectedQuestion.id;
 
 // first attempt
@@ -156,8 +171,11 @@ document.getElementById("notAttemptedCount").innerText =
     questions.length - Object.keys(questionStatus).length;
 })
     .catch(error => {
-        console.error("Error:", error);
-    });
+    console.error("Error:", error);
+
+    runButton.disabled = false;
+    runButton.innerText = "Run";
+});
 }
 // ✅ Warn before refresh (Ctrl+R / Reload / Close tab)
 window.addEventListener("beforeunload", function (e) {

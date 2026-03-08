@@ -1,6 +1,6 @@
 package com.debugarena.backend.model;
 
-import java.util.Map;
+import java.util.*;
 
 public class Question {
 
@@ -10,6 +10,7 @@ public class Question {
     private String input;
     private String expectedOutput;
     private Map<String, String> languages;
+    private List<TestCase> testCases;
 
     public Question() {}
 
@@ -30,4 +31,7 @@ public class Question {
 
     public Map<String, String> getLanguages() { return languages; }
     public void setLanguages(Map<String, String> languages) { this.languages = languages; }
+    public List<TestCase> getTestCases() { return testCases; }  // ✅ getter
+    public void setTestCases(List<TestCase> testCases) { this.testCases = testCases; } // ✅ setter
+
 }
