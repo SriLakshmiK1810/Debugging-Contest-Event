@@ -29,7 +29,7 @@ if (saved) {
 );
 
 function loadQuestions() {
-    fetch('http://localhost:8080/questions')
+    fetch('https://debugging-contest-event.onrender.com/questions')
         .then(res => res.json())
         .then(data => {
 
@@ -123,7 +123,7 @@ function runCode() {
             languageId = 71;
     }
 
-    fetch('http://localhost:8080/submit', {
+    fetch('https://debugging-contest-event.onrender.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
