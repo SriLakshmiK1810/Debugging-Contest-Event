@@ -4,6 +4,7 @@ let selectedQuestion = null;
 let passed = 0;
 let wrong = 0;
 let questionStatus = {}; 
+const API_BASE = "https://debugging-contest-event.onrender.com";
 // questionId -> "passed" | "wrong"
 require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.45.0/min/vs' }});
 require(['vs/editor/editor.main'], function () {
@@ -29,7 +30,7 @@ if (saved) {
 );
 
 function loadQuestions() {
-    fetch('https://debugging-contest-event.onrender.com/questions')
+    fetch(`${API_BASE}/questions`)
         .then(res => res.json())
         .then(data => {
 
@@ -123,7 +124,7 @@ function runCode() {
             languageId = 71;
     }
 
-    fetch('https://debugging-contest-event.onrender.com/submit', {
+    fetch(`${API_BASE}/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
