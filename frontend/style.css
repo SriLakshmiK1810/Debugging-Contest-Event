@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 html, body {
@@ -283,4 +284,329 @@ html, body {
     background-color: #555;
     cursor: not-allowed;
     opacity: 0.7;
+}
+
+
+
+.exit-btn{
+    padding: 10px 30px;
+    background: linear-gradient(90deg,#ef4444,#b91c1c);
+    border: none;
+    border-radius: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    position: fixed;
+    right:5%;
+    top:80%;
+    color: white;
+    font-weight: 500;
+}
+
+.exit-btn:hover{
+    transform: translateY(-2px);
+    background:#dc2626;
+}
+
+/* WELCOME SCREEN */
+
+.welcome-screen{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:#0f172a;
+}
+
+.welcome-screen h1{
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+.rules-btn{
+   margin-top:25px;
+    padding:10px 28px;
+    font-size:20px;
+    border:none;
+    border-radius:8px;
+    background:#304361;
+    color:white;
+    cursor:pointer;
+    transition:0.2s;
+    animation: riseUp 0.9s ease forwards;
+    animation-delay:1.6s;
+    opacity:0;
+}
+
+.rules-btn:hover{
+    background:#0acfd5;
+}
+
+.welcome-screen{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.rules{
+    background:#1e293b;
+    padding:20px;
+    border-radius:8px;
+    margin-bottom:30px;
+}
+
+.rules ul{
+    text-align:left;
+}
+
+.start-btn{
+    margin-top:25px;
+    padding:10px 45px;
+    font-size:20px;
+    border:none;
+    border-radius:8px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+    animation: riseUp 0.9s ease forwards;
+    animation-delay:1.6s;
+    opacity:0;
+}
+
+.start-btn:hover{
+    background:#0acfd5;
+}
+
+/* COUNTDOWN */
+
+.countdown-screen{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:120px;
+}
+
+#countdownNumber{
+    font-size:120px;
+    opacity:0;
+    animation:fadeCount 1s ease forwards;
+}
+
+@keyframes fadeCount{
+    0%{
+        opacity:0;
+        transform:scale(0.6);
+    }
+    40%{
+        opacity:1;
+        transform:scale(1.2);
+    }
+    100%{
+        opacity:0;
+        transform:scale(0.8);
+    }
+}
+
+@keyframes countZoom{
+    0%{
+        transform:scale(0.3);
+        opacity:0;
+    }
+    50%{
+        transform:scale(1.3);
+        opacity:1;
+    }
+    100%{
+        transform:scale(0.5);
+        opacity:0;
+    }
+}
+
+/* LOGIC RELAY TRAIN EFFECT */
+
+
+/* ROUND 2 POP UP */
+
+.round-title{
+    font-size:34px;
+    text-align:center;
+    opacity:0;
+
+    animation: roundAppear 1s ease forwards;
+    animation-delay:1.3s;
+}
+
+@keyframes roundAppear{
+
+    0%{
+        transform:translateY(50px);
+        opacity:0;
+    }
+
+    100%{
+        transform:translateY(0);
+        opacity:1;
+    }
+
+}
+
+.tagline{
+    margin-top:5px;
+    font-size:20px;
+    font-style: italic;
+    color:#ffffff;
+    font-weight: lighter;
+    text-align:center;
+    opacity: 0;
+
+    animation: boomEntry 1s ease forwards;
+    animation-delay: 1.4s;
+    
+}
+
+@keyframes boomEntry{
+
+    0%{
+        transform: scale(0);
+        opacity:0;
+    }
+
+    50%{
+        transform: scale(1.4);
+        opacity:1;
+    }
+
+    75%{
+        transform: scale(0.9);
+    }
+
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+.rules-box{
+    display:none;
+    background:#304361;
+    padding:20px;
+    text-align: justify;
+    font-style: italic;
+    font-size:medium;
+    margin-top:20px;
+    border-radius:8px;
+    animation:fadeRules 0.5s ease;
+}
+.rules-box li{
+    padding: 5px;
+    margin-left: 5px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+@keyframes fadeRules{
+    from{opacity:0; transform:translateY(-10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.curtain{
+    position:relative;
+    overflow:hidden;
+}
+
+/* curtains */
+
+.curtain::before,
+.curtain::after{
+    content:"";
+    position:absolute;
+    top:0;
+    width:50%;
+    height:100%;
+    background:#0f172a;
+    z-index:1000;
+}
+
+.curtain::before{
+    left:0;
+}
+
+.curtain::after{
+    right:0;
+}
+
+/* animation */
+
+.openCurtain::before{
+    animation:openLeft 1s forwards;
+}
+
+.openCurtain::after{
+    animation:openRight 1s forwards;
+}
+
+@keyframes openLeft{
+    from{transform:translateX(0);}
+    to{transform:translateX(-100%);}
+}
+
+@keyframes openRight{
+    from{transform:translateX(0);}
+    to{transform:translateX(100%);}
+}
+
+.logic-title, .round-title, .tagline{
+    animation-duration: 1.2s;
+}
+
+.logic-title{
+    font-size:72px;
+    font-style:italic;
+    font-weight:800;
+    text-align:center;
+margin-top: 15px;
+padding: 20px;
+    background: linear-gradient(to bottom,#FFFFFF 40%,#7DD3FC 100%);
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation: trainMove 1.3s ease forwards;
+}
+
+@keyframes trainMove{
+
+    0%{
+        transform:translateX(-120vw);
+        opacity:0;
+    }
+
+    50%{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+    /* jerk effect */
+    60%{
+        transform:translateX(-10px);
+    }
+}
+
+
+
+@keyframes riseUp{
+    0%{
+        transform: translateY(60px);
+        opacity: 0;
+    }
+
+    100%{
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

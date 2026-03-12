@@ -183,3 +183,103 @@ window.addEventListener("beforeunload", function (e) {
     e.preventDefault();
     e.returnValue = "Are you sure you want to refresh? Your progress will be lost.";
 });
+
+function startContest(){
+
+    document.getElementById("welcomeScreen").style.display="none";
+
+    const countdown=document.getElementById("countdownScreen");
+    const number=document.getElementById("countdownNumber");
+
+    countdown.style.display="flex";
+
+    let count=5;
+
+    function showNumber(){
+
+        if(count > 0){
+
+            number.style.animation="none";
+            number.offsetHeight; 
+            number.style.animation="fadeCount 1s ease";
+
+            number.innerText=count;
+
+            count--;
+
+            setTimeout(showNumber,1000);
+
+        } 
+        else {
+
+            number.style.animation="none";
+            number.offsetHeight;
+            number.style.animation="fadeCount 1s ease";
+
+            number.innerText="GO!";
+
+            setTimeout(()=>{
+
+                countdown.style.display="none";
+
+                const contest=document.getElementById("contestScreen");
+                contest.style.display="block";
+                contest.classList.add("openCurtain");
+
+            },1000);
+        }
+
+    }
+
+    showNumber();
+}
+
+
+document.addEventListener("copy", function(e) {
+    e.preventDefault();
+    alert("Copy is disabled during the contest.");
+});
+
+document.addEventListener("paste", function(e) {
+    e.preventDefault();
+    alert("Paste is disabled during the contest.");
+});
+
+document.addEventListener("cut", function(e) {
+    e.preventDefault();
+    alert("Cut is disabled during the contest.");
+});
+
+document.addEventListener("keydown", function(e) {
+
+    if (e.ctrlKey && (e.key === "c" || e.key === "v" || e.key === "x")) {
+        e.preventDefault();
+        alert("Copy/Paste is disabled during the contest.");
+    }
+
+});
+
+document.addEventListener("contextmenu", function(e) {
+    e.preventDefault();
+});
+
+function toggleRules(){
+
+    const box = document.getElementById("rulesBox");
+
+    if(box.style.display === "block"){
+        box.style.display = "none";
+    } else {
+        box.style.display = "block";
+    }
+
+}
+function exitContest(){
+
+    if(confirm("Do you want to quit the relay? All progress will be lost.")){
+
+        window.location.reload(); // returns to welcome screen
+
+    }
+
+}
