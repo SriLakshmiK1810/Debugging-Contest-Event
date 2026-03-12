@@ -15,11 +15,7 @@ require(['vs/editor/editor.main'], function () {
         theme: 'vs-dark'
         
     });
-// ✅ Auto-save code
-editor.onDidChangeModelContent(() => {
-    localStorage.setItem("savedCode", editor.getValue());
-});
-
+    
     loadQuestions();
 }
 );
@@ -56,6 +52,11 @@ document.getElementById("wrongCount").innerText = 0;
 document.getElementById("notAttemptedCount").innerText = questions.length;
 function selectQuestion(q, index, clickedElement) {
 
+    // save current code before switching
+    if(selectedQuestion){
+        savedCodes[selectedQuestion.id] = editor.getValue();
+    }
+
     selectedQuestion = q;
 
     // ✅ Remove active from all relays
@@ -73,9 +74,12 @@ function selectQuestion(q, index, clickedElement) {
 
     const lang = document.getElementById('languageSelect').value;
 
-    if (q.languages && q.languages[lang]) {
-        editor.setValue(q.languages[lang]);
-    }
+    if(savedCodes[q.id]){
+    editor.setValue(savedCodes[q.id]);
+}
+else if (q.languages && q.languages[lang]) {
+    editor.setValue(q.languages[lang]);
+}
 }
 
 window.onload = function() {
