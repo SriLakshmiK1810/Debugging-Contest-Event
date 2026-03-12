@@ -20,11 +20,6 @@ editor.onDidChangeModelContent(() => {
     localStorage.setItem("savedCode", editor.getValue());
 });
 
-// ✅ Restore saved code
-const saved = localStorage.getItem("savedCode");
-if (saved) {
-    editor.setValue(saved);
-}
     loadQuestions();
 }
 );
@@ -42,16 +37,20 @@ function loadQuestions() {
             list.innerHTML = "";   // important
 
             data.forEach((q, index) => {
-                const li = document.createElement('li');
+    const li = document.createElement('li');
 
-                li.textContent = "Relay-" + String(index + 1).padStart(2, '0');
+    li.textContent = "Relay-" + String(index + 1).padStart(2, '0');
 
-                li.onclick = () => selectQuestion(q, index, li);
+    li.onclick = () => selectQuestion(q, index, li);
 
-                list.appendChild(li);
-            });
-        });
-}
+    list.appendChild(li);
+
+    // ✅ Auto select first question
+    if(index === 0){
+        selectQuestion(q, index, li);
+        li.classList.add("active");
+    }
+});});}
 document.getElementById("passedCount").innerText = 0;
 document.getElementById("wrongCount").innerText = 0;
 document.getElementById("notAttemptedCount").innerText = questions.length;
@@ -225,6 +224,11 @@ function startContest(){
                 const contest=document.getElementById("contestScreen");
                 contest.style.display="block";
                 contest.classList.add("openCurtain");
+                setTimeout(()=>{
+        if(editor){
+            editor.layout();
+        }
+    },100);
 
             },1000);
         }
