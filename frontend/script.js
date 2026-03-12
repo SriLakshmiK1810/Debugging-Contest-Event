@@ -3,114 +3,142 @@ let questions = [];
 let selectedQuestion = null;
 let passed = 0;
 let wrong = 0;
-let questionStatus = {}; 
+let questionStatus = {};
+let savedCodes = {}; // store code per question
+
 const API_BASE = "https://debugging-contest-event.onrender.com";
-// questionId -> "passed" | "wrong"
-require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.45.0/min/vs' }});
+
+require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.45.0/min/vs' } });
+
 require(['vs/editor/editor.main'], function () {
 
     editor = monaco.editor.create(document.getElementById('editor'), {
         value: '',
         language: 'python',
         theme: 'vs-dark'
-        
     });
-    
+
     loadQuestions();
-}
-);
+});
+
+
+/* ---------------- LOAD QUESTIONS ---------------- */
 
 function loadQuestions() {
+
     fetch(`${API_BASE}/questions`)
         .then(res => res.json())
         .then(data => {
 
             questions = data;
 
+            const list = document.getElementById("questionList");
+            list.innerHTML = "";
+
             document.getElementById("notAttemptedCount").innerText = data.length;
 
-            const list = document.getElementById('questionList');
-            list.innerHTML = "";   // important
-
             data.forEach((q, index) => {
-    const li = document.createElement('li');
 
-    li.textContent = "Relay-" + String(index + 1).padStart(2, '0');
+                const li = document.createElement("li");
 
-    li.onclick = () => selectQuestion(q, index, li);
+                li.textContent = "Relay-" + String(index + 1).padStart(2, "0");
 
-    list.appendChild(li);
+                li.onclick = () => selectQuestion(q, index, li);
 
-    // ✅ Auto select first question
-    if(index === 0){
-        selectQuestion(q, index, li);
-        li.classList.add("active");
-    }
-});});}
-document.getElementById("passedCount").innerText = 0;
-document.getElementById("wrongCount").innerText = 0;
-document.getElementById("notAttemptedCount").innerText = questions.length;
+                list.appendChild(li);
+
+                // auto open first question
+                if (index === 0) {
+                    selectQuestion(q, index, li);
+                    li.classList.add("active");
+                }
+
+            });
+
+        })
+        .catch(err => console.error("Error loading questions:", err));
+}
+
+
+/* ---------------- SELECT QUESTION ---------------- */
+
 function selectQuestion(q, index, clickedElement) {
 
-    // save current code before switching
-    if(selectedQuestion){
+    // save previous question code
+    if (selectedQuestion) {
         savedCodes[selectedQuestion.id] = editor.getValue();
     }
 
     selectedQuestion = q;
 
-    // ✅ Remove active from all relays
     document.querySelectorAll("#questionList li")
         .forEach(li => li.classList.remove("active"));
 
-    // ✅ Add active to clicked relay
     clickedElement.classList.add("active");
 
-    document.getElementById('questionTitle').innerText =
-        "Relay-" + String(index + 1).padStart(2, '0');
+    document.getElementById("questionTitle").innerText =
+        "Relay-" + String(index + 1).padStart(2, "0");
 
-    document.getElementById('questionDescription').innerText =
+    document.getElementById("questionDescription").innerText =
         q.description;
 
-    const lang = document.getElementById('languageSelect').value;
+    const lang = document.getElementById("languageSelect").value;
 
-    if(savedCodes[q.id]){
-    editor.setValue(savedCodes[q.id]);
-}
-else if (q.languages && q.languages[lang]) {
-    editor.setValue(q.languages[lang]);
-}
+    // restore saved code
+    if (savedCodes[q.id]) {
+        editor.setValue(savedCodes[q.id]);
+    }
+    else if (q.languages && q.languages[lang]) {
+        editor.setValue(q.languages[lang]);
+    }
 }
 
-window.onload = function() {
-    const languageSelect = document.getElementById('languageSelect');
+
+/* ---------------- LANGUAGE SWITCH ---------------- */
+
+window.onload = function () {
+
+    const languageSelect = document.getElementById("languageSelect");
 
     if (languageSelect) {
-        languageSelect.addEventListener('change', function() {
+
+        languageSelect.addEventListener("change", function () {
+
             if (selectedQuestion) {
-                editor.setValue(selectedQuestion.languages[this.value]);
-                monaco.editor.setModelLanguage(editor.getModel(), this.value);
+
+                const lang = this.value;
+
+                if (selectedQuestion.languages[lang]) {
+                    editor.setValue(selectedQuestion.languages[lang]);
+                }
+
+                monaco.editor.setModelLanguage(editor.getModel(), lang);
             }
+
         });
+
     }
+
 };
-console.log("Run button clicked");
+
+
+/* ---------------- RUN CODE ---------------- */
 
 function runCode() {
+
     if (!selectedQuestion) {
         alert("Please select a question first!");
         return;
     }
- const runButton = document.querySelector(".run-btn");
 
-    // disable button
+    const runButton = document.querySelector(".run-btn");
+
     runButton.disabled = true;
     runButton.innerText = "Running...";
 
     const code = editor.getValue();
-    const selectedLanguage = document.getElementById('languageSelect').value;
+    const selectedLanguage = document.getElementById("languageSelect").value;
 
-    // Convert language name to Judge0 ID
     let languageId;
 
     switch (selectedLanguage) {
@@ -128,113 +156,128 @@ function runCode() {
     }
 
     fetch(`${API_BASE}/submit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             questionId: selectedQuestion.id,
             code: code,
-            languageId: languageId   // ✅ NOW WE SEND IT
+            languageId: languageId
         })
     })
-    .then(res => res.json())
-    .then(data => {
+        .then(res => res.json())
+        .then(data => {
 
-    document.getElementById('result').innerText =
-        data.status + " - " + data.message;
+            document.getElementById("result").innerText =
+                data.status + " - " + data.message;
 
-        runButton.disabled = false;
-        runButton.innerText = "Run";
+            runButton.disabled = false;
+            runButton.innerText = "Run";
 
-const qid = selectedQuestion.id;
+            const qid = selectedQuestion.id;
 
-// first attempt
-if (!questionStatus[qid]) {
+            if (!questionStatus[qid]) {
 
-    if (data.status.includes("SUCCESS")) {
-        questionStatus[qid] = "passed";
-        passed++;
-    } else {
-        questionStatus[qid] = "wrong";
-        wrong++;
-    }
+                if (data.status.includes("SUCCESS")) {
+                    questionStatus[qid] = "passed";
+                    passed++;
+                } else {
+                    questionStatus[qid] = "wrong";
+                    wrong++;
+                }
 
-} else {
+            }
+            else {
 
-    // question already attempted before
-    if (data.status.includes("SUCCESS") && questionStatus[qid] === "wrong") {
-        wrong--;
-        passed++;
-        questionStatus[qid] = "passed";
-    }
+                if (data.status.includes("SUCCESS") && questionStatus[qid] === "wrong") {
+                    wrong--;
+                    passed++;
+                    questionStatus[qid] = "passed";
+                }
+
+            }
+
+            document.getElementById("passedCount").innerText = passed;
+            document.getElementById("wrongCount").innerText = wrong;
+
+            document.getElementById("notAttemptedCount").innerText =
+                questions.length - Object.keys(questionStatus).length;
+
+        })
+        .catch(error => {
+
+            console.error("Error:", error);
+
+            runButton.disabled = false;
+            runButton.innerText = "Run";
+
+        });
+
 }
 
-// update UI
-document.getElementById("passedCount").innerText = passed;
-document.getElementById("wrongCount").innerText = wrong;
-document.getElementById("notAttemptedCount").innerText =
-    questions.length - Object.keys(questionStatus).length;
-})
-    .catch(error => {
-    console.error("Error:", error);
 
-    runButton.disabled = false;
-    runButton.innerText = "Run";
-});
-}
-// ✅ Warn before refresh (Ctrl+R / Reload / Close tab)
+/* ---------------- REFRESH WARNING ---------------- */
+
 window.addEventListener("beforeunload", function (e) {
+
     e.preventDefault();
     e.returnValue = "Are you sure you want to refresh? Your progress will be lost.";
+
 });
 
-function startContest(){
 
-    document.getElementById("welcomeScreen").style.display="none";
+/* ---------------- CONTEST START ---------------- */
 
-    const countdown=document.getElementById("countdownScreen");
-    const number=document.getElementById("countdownNumber");
+function startContest() {
 
-    countdown.style.display="flex";
+    document.getElementById("welcomeScreen").style.display = "none";
 
-    let count=5;
+    const countdown = document.getElementById("countdownScreen");
+    const number = document.getElementById("countdownNumber");
 
-    function showNumber(){
+    countdown.style.display = "flex";
 
-        if(count > 0){
+    let count = 5;
 
-            number.style.animation="none";
-            number.offsetHeight; 
-            number.style.animation="fadeCount 1s ease";
+    function showNumber() {
 
-            number.innerText=count;
+        if (count > 0) {
+
+            number.style.animation = "none";
+            number.offsetHeight;
+            number.style.animation = "fadeCount 1s ease";
+
+            number.innerText = count;
 
             count--;
 
-            setTimeout(showNumber,1000);
+            setTimeout(showNumber, 1000);
 
-        } 
+        }
         else {
 
-            number.style.animation="none";
+            number.style.animation = "none";
             number.offsetHeight;
-            number.style.animation="fadeCount 1s ease";
+            number.style.animation = "fadeCount 1s ease";
 
-            number.innerText="GO!";
+            number.innerText = "GO!";
 
-            setTimeout(()=>{
+            setTimeout(() => {
 
-                countdown.style.display="none";
+                countdown.style.display = "none";
 
-                const contest=document.getElementById("contestScreen");
-                contest.style.display="block";
+                const contest = document.getElementById("contestScreen");
+                contest.style.display = "block";
                 contest.classList.add("openCurtain");
-                setTimeout(()=>{
-        if(editor){
-            editor.layout();
-        }
-    },100);
 
-            },1000);
+                // fix Monaco editor rendering
+                setTimeout(() => {
+                    if (editor) {
+                        editor.layout();
+                    }
+                }, 100);
+
+            }, 1000);
+
         }
 
     }
@@ -243,22 +286,24 @@ function startContest(){
 }
 
 
-document.addEventListener("copy", function(e) {
+/* ---------------- DISABLE COPY/PASTE ---------------- */
+
+document.addEventListener("copy", e => {
     e.preventDefault();
     alert("Copy is disabled during the contest.");
 });
 
-document.addEventListener("paste", function(e) {
+document.addEventListener("paste", e => {
     e.preventDefault();
     alert("Paste is disabled during the contest.");
 });
 
-document.addEventListener("cut", function(e) {
+document.addEventListener("cut", e => {
     e.preventDefault();
     alert("Cut is disabled during the contest.");
 });
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function (e) {
 
     if (e.ctrlKey && (e.key === "c" || e.key === "v" || e.key === "x")) {
         e.preventDefault();
@@ -267,26 +312,34 @@ document.addEventListener("keydown", function(e) {
 
 });
 
-document.addEventListener("contextmenu", function(e) {
+document.addEventListener("contextmenu", e => {
     e.preventDefault();
 });
 
-function toggleRules(){
+
+/* ---------------- RULES ---------------- */
+
+function toggleRules() {
 
     const box = document.getElementById("rulesBox");
 
-    if(box.style.display === "block"){
+    if (box.style.display === "block") {
         box.style.display = "none";
-    } else {
+    }
+    else {
         box.style.display = "block";
     }
 
 }
-function exitContest(){
 
-    if(confirm("Do you want to quit the relay? All progress will be lost.")){
 
-        window.location.reload(); // returns to welcome screen
+/* ---------------- EXIT CONTEST ---------------- */
+
+function exitContest() {
+
+    if (confirm("Do you want to quit the relay? All progress will be lost.")) {
+
+        window.location.reload();
 
     }
 
