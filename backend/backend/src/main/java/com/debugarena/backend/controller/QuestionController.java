@@ -60,6 +60,7 @@ public class QuestionController {
             if (selectedQuestion == null) {
                 return new SubmissionResponse("ERROR", "Question not found.");
             }
+
             StringBuilder resultDetails = new StringBuilder();
             int testCaseNumber = 1;
 
@@ -95,17 +96,15 @@ public class QuestionController {
                                 "Input:\n" + inputUsed + "\n\nResult:\nError. Try again."
                         );
                     }
+
                     if (stdout != null) {
 
                         String output = stdout.toString().trim().replaceAll("\\s+", " ");
                         String expected = testCase.getExpectedOutput().trim().replaceAll("\\s+", " ");
 
-                        resultDetails.append("Test Case ")
-                                .append(testCaseNumber)
-                                .append("\nInput:\n")
-                                .append(inputUsed)
-                                .append("\nOutput:\n")
-                                .append(output)
+                        resultDetails.append("Test Case ").append(testCaseNumber)
+                                .append("\nInput:\n").append(inputUsed)
+                                .append("\nOutput:\n").append(output)
                                 .append("\n\n");
 
                         if (!output.equals(expected)) {
@@ -120,12 +119,10 @@ public class QuestionController {
                         }
 
                         testCaseNumber++;
-
                     }
                 }
             }
 
-            // ✅ If all test cases pass
             return new SubmissionResponse(
                     "SUCCESS",
                     resultDetails.toString() + "Result: All Test Cases Passed ✅"
