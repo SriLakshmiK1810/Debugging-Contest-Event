@@ -60,6 +60,8 @@ public class QuestionController {
             if (selectedQuestion == null) {
                 return new SubmissionResponse("ERROR", "Question not found.");
             }
+            StringBuilder resultDetails = new StringBuilder();
+            int testCaseNumber = 1;
 
             for (TestCase testCase : selectedQuestion.getTestCases()) {
 
@@ -93,21 +95,32 @@ public class QuestionController {
                                 "Input:\n" + inputUsed + "\n\nResult:\nError. Try again."
                         );
                     }
-
                     if (stdout != null) {
 
                         String output = stdout.toString().trim().replaceAll("\\s+", " ");
                         String expected = testCase.getExpectedOutput().trim().replaceAll("\\s+", " ");
 
+                        resultDetails.append("Test Case ")
+                                .append(testCaseNumber)
+                                .append("\nInput:\n")
+                                .append(inputUsed)
+                                .append("\nOutput:\n")
+                                .append(output)
+                                .append("\n\n");
+
                         if (!output.equals(expected)) {
 
                             return new SubmissionResponse(
                                     "WRONG",
-                                    "Failed Test Case\n\nInput:\n" + inputUsed +
+                                    "Test Case " + testCaseNumber + " Failed ❌\n\n" +
+                                            "Input:\n" + inputUsed +
                                             "\n\nYour Output:\n" + output +
                                             "\n\nExpected Output:\n" + expected
                             );
                         }
+
+                        testCaseNumber++;
+
                     }
                 }
             }
@@ -115,7 +128,7 @@ public class QuestionController {
             // ✅ If all test cases pass
             return new SubmissionResponse(
                     "SUCCESS",
-                    "All Test Cases Passed ✅"
+                    resultDetails.toString() + "Result: All Test Cases Passed ✅"
             );
 
         } catch (Exception e) {
