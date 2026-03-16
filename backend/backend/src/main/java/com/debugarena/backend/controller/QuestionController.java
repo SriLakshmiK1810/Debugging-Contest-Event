@@ -41,9 +41,12 @@ public class QuestionController {
 
     @PostMapping("/submit")
     public SubmissionResponse submitCode(@RequestBody SubmissionRequest request) {
+
         try {
+
             ObjectMapper mapper = new ObjectMapper();
             InputStream inputStream = new ClassPathResource("questions.json").getInputStream();
+
             List<Question> questions = mapper.readValue(
                     inputStream,
                     new com.fasterxml.jackson.core.type.TypeReference<List<Question>>() {}
@@ -58,56 +61,62 @@ public class QuestionController {
                 return new SubmissionResponse("ERROR", "Question not found.");
             }
 
-            // ✅ Use first test case as example
-            TestCase testCase = selectedQuestion.getTestCases().get(0);
-            String inputUsed = testCase.getInput();
+            for (TestCase testCase : selectedQuestion.getTestCases()) {
 
-            Map<String, Object> judgeRequest = new HashMap<>();
-            judgeRequest.put("source_code", request.getCode());
-            judgeRequest.put("language_id", request.getLanguageId());
-            judgeRequest.put("stdin", inputUsed);
+                String inputUsed = testCase.getInput();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+                Map<String, Object> judgeRequest = new HashMap<>();
+                judgeRequest.put("source_code", request.getCode());
+                judgeRequest.put("language_id", request.getLanguageId());
+                judgeRequest.put("stdin", inputUsed);
 
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(judgeRequest, headers);
-            ResponseEntity<Map> response = restTemplate.postForEntity(JUDGE0_URL, entity, Map.class);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
 
-            if (response.getBody() != null) {
-                Map<String, Object> body = response.getBody();
-                Object stdout = body.get("stdout");
-                Object stderr = body.get("stderr");
-                Object compileOutput = body.get("compile_output");
+                HttpEntity<Map<String, Object>> entity =
+                        new HttpEntity<>(judgeRequest, headers);
 
-                if (stderr != null || compileOutput != null) {
-                    return new SubmissionResponse("ERROR",
-                            "Input:\n" + inputUsed + "\n\nResult:\nError. Try again.");
-                }
+                ResponseEntity<Map> response =
+                        restTemplate.postForEntity(JUDGE0_URL, entity, Map.class);
 
-                if (stdout != null) {
-                    String output = stdout.toString().trim();
-                    String expected = testCase.getExpectedOutput().trim();
+                if (response.getBody() != null) {
 
-                    if(output.equals(expected)){
+                    Map<String, Object> body = response.getBody();
+
+                    Object stdout = body.get("stdout");
+                    Object stderr = body.get("stderr");
+                    Object compileOutput = body.get("compile_output");
+
+                    if (stderr != null || compileOutput != null) {
                         return new SubmissionResponse(
-                                "SUCCESS",
-                                "Input:\n" + inputUsed +
-                                        "\n\nOutput:\n" + output +
-                                        "\n\nResult: Correct ✅"
+                                "ERROR",
+                                "Input:\n" + inputUsed + "\n\nResult:\nError. Try again."
                         );
-                    }else{
-                        return new SubmissionResponse(
-                                "WRONG",
-                                "Input:\n" + inputUsed +
-                                        "\n\nYour Output:\n" + output +
-                                        "\n\nExpected Output:\n" + expected
-                        );
+                    }
+
+                    if (stdout != null) {
+
+                        String output = stdout.toString().trim().replaceAll("\\s+", " ");
+                        String expected = testCase.getExpectedOutput().trim().replaceAll("\\s+", " ");
+
+                        if (!output.equals(expected)) {
+
+                            return new SubmissionResponse(
+                                    "WRONG",
+                                    "Failed Test Case\n\nInput:\n" + inputUsed +
+                                            "\n\nYour Output:\n" + output +
+                                            "\n\nExpected Output:\n" + expected
+                            );
+                        }
                     }
                 }
             }
 
-            return new SubmissionResponse("ERROR",
-                    "Input:\n" + inputUsed + "\n\nResult:\nError. Try again.");
+            // ✅ If all test cases pass
+            return new SubmissionResponse(
+                    "SUCCESS",
+                    "All Test Cases Passed ✅"
+            );
 
         } catch (Exception e) {
             return new SubmissionResponse("ERROR", "Server error.");

@@ -40,8 +40,8 @@
     "input": "()()",
     "expectedOutput": "Valid",
     "languages": {
-      "python": "s = input()\nstack = []\nfor ch in s:\n if ch == '(':\n  stack.append(ch)\n else:\n  stack.pop()\nif stack == []:\n print(\"Valid\")",
-      "java": "import java.util.*;\nclass Main{\n public static void main(String[] arg){\n  Scanner sc = new Scanner(System.in);\n  String s = sc.next();\n  Stack<Character> stack = new Stack<>();\n  for(char ch : s.toCharArray()){\n   if(ch == '(')\n    stack.push(ch);\n   else\n    stack.pop();\n  }\n  if(stack.empty())\n   System.out.println(\"Valid\");\n }\n}",
+      "python": "s = input()\nstack = []\nfor ch in string:\n if ch == (':\n  stack.append(ch)\n else:\n  stack.pick()\nif stack == []:\n print(\"Valid\")",
+      "java": "import java.util.scanner;\nclass Main{\n public static main(String[] args){\n  Scanner sc = new Scanner(System.in);\n  String s = sc.next();\n  Stack<Character> stack = new Stack<>();\n  for(char ch : s.toCharArray()){\n   if(ch == '(')\n    stack.push(ch);\n   else\n    stack.pop();\n  }\n  if(stack.empty())\n   System.out.println(\"Valid\");\n }\n}",
       "c": "#include<stdio.h>\nint main(){\n char s[100];\n int count = 0;\n scanf(\"%s\", s);\n for(int i=0; s[i] != '\\0'; i++){\n  if(s[i] == '(')\n   count++;\n  else\n   count--;\n }\n if(count = 0)\n  printf(\"Valid\");\n}"
     },
     "testCases": [
